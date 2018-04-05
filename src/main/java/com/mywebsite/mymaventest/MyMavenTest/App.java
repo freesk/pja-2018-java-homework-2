@@ -16,6 +16,8 @@ public class App {
     	scanner = new Scanner(System.in);
     	stops = DummyStationsGenerator.getData(3, 20, 40, 40);
     	
+//    	for (Stop s : stops) System.out.println(s);
+    	
         System.out.println("Hello, this is a console app that lets you build a public transport line");
         showMainMenu();	
     }

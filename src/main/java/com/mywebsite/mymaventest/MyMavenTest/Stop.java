@@ -34,10 +34,10 @@ public class Stop {
 	@Override
 	public String toString() {
 		return "{\n" + 
-				"  id  : " + id + ";\n" +
-				"  name: " + name + ";\n" + 
-				"  type: " + type + ";\n" +
-				"},";				
+				"  id  : " + id + "\n" +
+				"  name: " + name + "\n" + 
+				"  type: " + type + "\n" +
+				"}";				
 				
 	}
 }
