@@ -85,8 +85,38 @@ public class App {
         	showCreateNewRouteMenu();
         } else if (n == 1) {
         	showRoutesMenu();
+        } else if (n == 2) {
+        	showStopsMenu();
         }
         	
+    }
+    
+    public static void showStopsMenu() {
+    	for (Stop s : stops) {
+    		
+    		String message = "";
+    		
+    		if (s instanceof JoinedStop) {
+    			ArrayList<Route> joinedRountes = RouteService.getJoinedRoutesBy(s);
+    			if (joinedRountes.size() > 1) {
+    				String multiroute = "";
+        			for (int i = 0; i < joinedRountes.size(); i++) {
+        				multiroute += joinedRountes.get(i).getName();
+        				multiroute += (i == (joinedRountes.size() - 1) ? "" : ", ");
+        			}
+        			message = " * " + s.getName() + " [" + multiroute + "]";
+    			} else {
+    				message = " * " + s.getName();
+    			}        			
+    		} else {
+    			message = " * " + s.getName();
+    		}
+    		
+    		System.out.println(message);
+
+    	}
+    	
+    	showMainMenu();
     }
     
     public static boolean yesOrNo() {
@@ -138,10 +168,6 @@ public class App {
         	showOptionsForRoute(r);
         } else if (n == 1) {
         	printRouteInfo(r);
-        	// hold it there till user enters exit
-        	menuItems = new ArrayList<String>();
-        	menuItems.add("Exit");
-            infoMenuSingleAnswer(null, menuItems);
             // back the the route menu
             showOptionsForRoute(r);
         } else if (n == 2) {
