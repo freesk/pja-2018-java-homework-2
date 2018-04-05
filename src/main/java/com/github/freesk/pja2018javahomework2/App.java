@@ -1,4 +1,4 @@
-package com.mywebsite.mymaventest.MyMavenTest;
+package com.github.freesk.pja2018javahomework2;
 
 import java.util.ArrayList;
 import java.util.Arrays;

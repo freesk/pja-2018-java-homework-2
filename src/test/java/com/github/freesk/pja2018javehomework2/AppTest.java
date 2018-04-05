@@ -1,4 +1,4 @@
-package com.mywebsite.mymaventest.MyMavenTest;
+package com.github.freesk.pja2018javehomework2;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
