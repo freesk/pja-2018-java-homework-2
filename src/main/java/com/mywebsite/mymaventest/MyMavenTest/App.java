@@ -26,31 +26,28 @@ public class App {
     			System.out.println(message);
     	
     	for (int i = 0; i < items.size(); i++) 
-    		System.out.println(i + " – " + items.get(i));
+    		System.out.println((i + 1) + " – " + items.get(i));
     	
     	System.out.println("Input an index to proceed");
     	
     	int num = 0;
-    	boolean goodToGo = false;
     	
-    	while (!goodToGo) {
+    	while (num == 0) {
     		try {
     			int n = scanner.nextInt();
     			scanner.nextLine();
     			
-    			if (n < 0 || n > items.size())
+    			if (n < 1 || n > items.size())
     				throw new RuntimeException("[Error] invalid index");
     			
-    			num = n;
-    			goodToGo = true;
-    			
+    			num = n;    			
     		} catch (RuntimeException e) {
     			System.out.println(e.getMessage());
     		}
     		
     	}
         
-        return num;
+        return num - 1;
     }
     
     public static ArrayList<Integer> infoMenuMultipleAnswers(String message, ArrayList<String> items) {
@@ -58,13 +55,13 @@ public class App {
     		if (!message.isEmpty()) System.out.println(message);
     	
     	for (int i = 0; i < items.size(); i++) 
-    		System.out.println(i + " – " + items.get(i));
+    		System.out.println((i + 1) + " – " + items.get(i));
     	
     	LinkedHashSet<Integer> list = getArrayOfIntegers();
     	ArrayList<Integer> res = new ArrayList<Integer>();
     	
     	for (Integer n : list)
-    		if (n > -1 && n < (items.size() + 1)) res.add(n);
+    		if (n > 0 && n < (items.size() + 1)) res.add(n - 1);
 
         return res;
     }
@@ -79,12 +76,15 @@ public class App {
         
         int n = infoMenuSingleAnswer(null, menuItems);
         
-        if (n == 3)
+        if (n == 3) {
+        	System.out.println("Bye!");
             System.exit(0);
-        else if (n == 0)
-            showCreateNewRouteMenu();
-        else if (n == 1)
+        } else if (n == 0) {
+        	showCreateNewRouteMenu();
+        } else if (n == 1) {
         	showRoutesMenu();
+        }
+        	
     }
     
     public static boolean yesOrNo() {
@@ -129,68 +129,24 @@ public class App {
         
         if (n == 4) {
         	showRoutesMenu();
+        	// back to the all the routes menu
         } else if (n == 0) {
         	r.assingStops(selectStops(r.getType()));
+        	// back the the route menu
         	showOptionsForRoute(r);
         } else if (n == 1) {
-        	System.out.println(r.getName() + " (" + RouteService.getRouteType(r) +  ")");
-        	
-        	for (Stop s : r.stops) {
-        		
-        		String message = "";
-        		
-        		if (s instanceof JoinedStop) {
-        			ArrayList<Route> joinedRountes = RouteService.getJoinedRoutesBy(s);
-        			if (joinedRountes.size() > 1) {
-        				String multiroute = "";
-            			for (int i = 0; i < joinedRountes.size(); i++) {
-            				multiroute += joinedRountes.get(i).getName();
-            				multiroute += (i == (joinedRountes.size() - 1) ? "" : ", ");
-            			}
-            			message = " * " + s.getName() + " [" + multiroute + "]";
-        			} else {
-        				message = " * " + s.getName();
-        			}        			
-        		} else {
-        			message = " * " + s.getName();
-        		}
-        		
-        		System.out.println(message);
-
-        	}
-        	
+        	printRouteInfo(r);
+        	// hold it there till user enters exit
         	menuItems = new ArrayList<String>();
         	menuItems.add("Exit");
-            
             infoMenuSingleAnswer(null, menuItems);
-            
+            // back the the route menu
             showOptionsForRoute(r);
-            
         } else if (n == 2) {
-        	
-        	String name = "";
-
-            while (name.isEmpty()) {
-            	System.out.println("Input the name of the route (for example R1)");
-            	try {
-                	String string = scanner.nextLine();
-                	if (string.isEmpty())
-                		throw new RuntimeException("[Error] cannot be empty");
-                	else if (string.length() > 30)
-                		throw new RuntimeException("[Error] cannot exceed 30 symobls");
-                	else if (RouteService.hasRoute(string))
-                		throw new RuntimeException("[Error] route " + string + " already exists");
-                	
-                	name = string;
-                } catch (RuntimeException e) {
-                	System.out.println(e.getMessage());
-                }
-            }
-            
+        	String name = getRouteNameInput();
             r.setName(name);
-            
+            // back the the route menu
             showOptionsForRoute(r);
-            
         } else if (n == 3) {
         	System.out.print("Are you sure? ");
         	boolean answer = yesOrNo();
@@ -199,14 +155,41 @@ public class App {
         		showRoutesMenu();
         	} else {
         		showOptionsForRoute(r);
-        	}
-        		
+        	}	
         } 
         
     }
     
-    public static void showCreateNewRouteMenu() { 
-       
+    public static void printRouteInfo(Route r) {
+    	System.out.println(r.getName() + " (" + RouteService.getRouteType(r) +  ")");
+    	
+    	for (Stop s : r.stops) {
+    		
+    		String message = "";
+    		
+    		if (s instanceof JoinedStop) {
+    			ArrayList<Route> joinedRountes = RouteService.getJoinedRoutesBy(s);
+    			if (joinedRountes.size() > 1) {
+    				String multiroute = "";
+        			for (int i = 0; i < joinedRountes.size(); i++) {
+        				multiroute += joinedRountes.get(i).getName();
+        				multiroute += (i == (joinedRountes.size() - 1) ? "" : ", ");
+        			}
+        			message = " * " + s.getName() + " [" + multiroute + "]";
+    			} else {
+    				message = " * " + s.getName();
+    			}        			
+    		} else {
+    			message = " * " + s.getName();
+    		}
+    		
+    		System.out.println(message);
+
+    	}	
+    }
+    
+    public static String getRouteNameInput() {
+    	int maxLength = 30;
     	String name = "";
 
         while (name.isEmpty()) {
@@ -215,7 +198,7 @@ public class App {
             	String string = scanner.nextLine();
             	if (string.isEmpty())
             		throw new RuntimeException("[Error] cannot be empty");
-            	else if (string.length() > 30)
+            	else if (string.length() > maxLength)
             		throw new RuntimeException("[Error] cannot exceed 30 symobls");
             	else if (RouteService.hasRoute(string))
             		throw new RuntimeException("[Error] route " + string + " already exists");
@@ -225,6 +208,13 @@ public class App {
             }
         }
         
+        return name;
+    }
+    
+    public static void showCreateNewRouteMenu() { 
+       
+    	String name = getRouteNameInput();
+
         int type = 0;
         
         while (type == 0) {

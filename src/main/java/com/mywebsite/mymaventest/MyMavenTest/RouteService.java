@@ -43,7 +43,11 @@ public class RouteService {
 	
 	public static void removeRoute(Route r) {
 		int index = routes.indexOf(r);
-		routes.remove(index);
+		
+		if (index < 0)
+			System.out.println("[Warning] route " + r.getName() + " is unknown");
+		else 
+			routes.remove(index);
 	}
 
 }
