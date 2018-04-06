@@ -19,7 +19,7 @@ public class RouteService {
 		routes.add(r);
 	}
 	
-	public static ArrayList<Route> getJoinedRoutesBy(Stop stop) {
+	public static ArrayList<Route> getRoutesByStop(Stop stop) {
 		ArrayList<Route> res = new ArrayList<Route>();
 		
 		for(Route r : routes)

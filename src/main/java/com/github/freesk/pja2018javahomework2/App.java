@@ -91,31 +91,26 @@ public class App {
         	
     }
     
+    public static void printStopInfo(ArrayList<Stop> stops) {
+		for (Stop s : stops) {
+			String message = "";
+			ArrayList<Route> rountes = RouteService.getRoutesByStop(s);
+			if (rountes.size() > 0) {
+				String multiroute = "";
+				for (int i = 0; i < rountes.size(); i++) {
+					multiroute += rountes.get(i).getName();
+					multiroute += (i == (rountes.size() - 1) ? "" : ", ");
+				}
+				message = " * " + s.getName() + " [" + multiroute + "]";
+			} else {
+				message = " * " + s.getName();
+			}
+			System.out.println(message);
+		}
+    }
+    
     public static void showStopsMenu() {
-    	for (Stop s : stops) {
-    		
-    		String message = "";
-    		
-    		if (s instanceof JoinedStop) {
-    			ArrayList<Route> joinedRountes = RouteService.getJoinedRoutesBy(s);
-    			if (joinedRountes.size() > 1) {
-    				String multiroute = "";
-        			for (int i = 0; i < joinedRountes.size(); i++) {
-        				multiroute += joinedRountes.get(i).getName();
-        				multiroute += (i == (joinedRountes.size() - 1) ? "" : ", ");
-        			}
-        			message = " * " + s.getName() + " [" + multiroute + "]";
-    			} else {
-    				message = " * " + s.getName();
-    			}        			
-    		} else {
-    			message = " * " + s.getName();
-    		}
-    		
-    		System.out.println(message);
-
-    	}
-    	
+    	printStopInfo(stops);   	
     	showMainMenu();
     }
     
@@ -124,7 +119,6 @@ public class App {
     	while (!(string.equals("yes") || string.equals("no"))) {
     		System.out.println("Please, enter yes or no");
     		string = scanner.nextLine();
-    		System.out.println(string);
         }
     	return string.equals("yes") ? true : false;
     }
@@ -189,31 +183,7 @@ public class App {
     }
     
     public static void printRouteInfo(Route r) {
-    	System.out.println(r.getName() + " (" + RouteService.getRouteType(r) +  ")");
-    	
-    	for (Stop s : r.stops) {
-    		
-    		String message = "";
-    		
-    		if (s instanceof JoinedStop) {
-    			ArrayList<Route> joinedRountes = RouteService.getJoinedRoutesBy(s);
-    			if (joinedRountes.size() > 1) {
-    				String multiroute = "";
-        			for (int i = 0; i < joinedRountes.size(); i++) {
-        				multiroute += joinedRountes.get(i).getName();
-        				multiroute += (i == (joinedRountes.size() - 1) ? "" : ", ");
-        			}
-        			message = " * " + s.getName() + " [" + multiroute + "]";
-    			} else {
-    				message = " * " + s.getName();
-    			}        			
-    		} else {
-    			message = " * " + s.getName();
-    		}
-    		
-    		System.out.println(message);
-
-    	}	
+    	printStopInfo(r.stops);	    
     }
     
     public static String getRouteNameInput() {
