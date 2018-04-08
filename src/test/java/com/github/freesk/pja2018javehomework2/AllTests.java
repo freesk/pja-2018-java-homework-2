@@ -24,7 +24,7 @@ import org.junit.Assert;
 public class AllTests {
 	
 //	Due to the relatively big number of methods only
-//	the most crucial methods have test
+//	the most crucial methods have tests
 	
 //	Tests for user IO have been ignored since there was not explicit 
 //	requirement to make them 
