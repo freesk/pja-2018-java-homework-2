@@ -3,8 +3,6 @@ package com.github.freesk.pja2018javehomework2;
 import java.util.ArrayList;
 
 import com.github.freesk.pja2018javahomework2.JoinedStop;
-import com.github.freesk.pja2018javahomework2.Route;
-import com.github.freesk.pja2018javahomework2.RouteService;
 import com.github.freesk.pja2018javahomework2.Stop;
 import com.github.freesk.pja2018javahomework2.StopService;
 
