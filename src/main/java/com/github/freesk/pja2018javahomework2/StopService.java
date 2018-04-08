@@ -14,5 +14,16 @@ public class StopService {
     		
     	return list;
     }
+    
+	public static String getStopType(Stop s) {
+		if (s.getType() == 0)
+			return "BUS & TRAIN";
+		else if (s.getType() == 1)
+			return "BUS";
+		else if (s.getType() == 2) 
+			return "TRAIN";
+		else 
+			return "undefined";
+	}
 
 }

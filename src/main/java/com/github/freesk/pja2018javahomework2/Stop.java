@@ -3,6 +3,9 @@ package com.github.freesk.pja2018javahomework2;
 import java.util.UUID;
 
 public class Stop {
+	
+//	Since a user cannot create a new instance of this class 
+//	there is no need to write advanced parameter validation 
 
 	final public String id = UUID.randomUUID().toString();
 	
@@ -21,14 +24,7 @@ public class Stop {
 	}
 	
 	public String getName() {
-		String typeStr = "";
-		
-		if (type == 1)
-			typeStr = "BUS";
-		else if (type == 2)
-			typeStr = "TRAIN";
-		
-		return this.name + " (" + typeStr + ")";
+		return this.name;
 	}
 	
 	@Override

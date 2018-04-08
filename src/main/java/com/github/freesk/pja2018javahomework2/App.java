@@ -12,6 +12,14 @@ public class App {
 	public static Scanner scanner;
 	public static ArrayList<Stop> stops;
 	
+//	The stations/stops are being grouped into the JoinedStop class 
+//	to reflect a connection on a route, which serves as an example of 
+//	Polymorphism
+
+//	The class Route cannot distinguish the difference between children of 
+//	a JoinedStop instance since there is no extra piece of information of 
+//	how they can be grouped
+	
     public static void main( String[] args ) {       
     	scanner = new Scanner(System.in);
     	stops = DummyStationsGenerator.getData(3, 20, 40, 40);
@@ -101,9 +109,9 @@ public class App {
 					multiroute += rountes.get(i).getName();
 					multiroute += (i == (rountes.size() - 1) ? "" : ", ");
 				}
-				message = " * " + s.getName() + " [" + multiroute + "]";
+				message = " * " + s.getName() + " (" + StopService.getStopType(s) + ")" + " [" + multiroute + "]";
 			} else {
-				message = " * " + s.getName();
+				message = " * " + s.getName() + " (" + StopService.getStopType(s) + ")";
 			}
 			System.out.println(message);
 		}
@@ -246,7 +254,8 @@ public class App {
     	ArrayList<Stop> availableStations = StopService.getStopsByType(stops, type);
     	ArrayList<String> model = new ArrayList<String>();
     	
-    	for (Stop s : availableStations) model.add(s.getName());
+    	for (Stop s : availableStations) 
+    		model.add(s.getName() + " (" + StopService.getStopType(s) + ")");
     	
     	ArrayList<Integer> selectedIndexes = infoMenuMultipleAnswers(null, model);
     	ArrayList<Stop> selectedStations = new ArrayList<Stop>();
