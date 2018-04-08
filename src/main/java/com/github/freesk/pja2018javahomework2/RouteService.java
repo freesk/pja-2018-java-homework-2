@@ -33,7 +33,7 @@ public class RouteService {
 	
 	public static int parseType(int n) throws IOException {
         if (n != 1 && n != 2)
-        	throw new RuntimeException("[Error] only 1 or 2");
+        	throw new IOException("[Error] only 1 or 2");
         return n;
 	}
 	
