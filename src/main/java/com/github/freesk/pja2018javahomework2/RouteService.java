@@ -1,8 +1,12 @@
 package com.github.freesk.pja2018javahomework2;
 
+import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class RouteService {
+	
+	final static int maxLength = 30;
 	
 	public static ArrayList<Route> routes = new ArrayList<Route>();
 
@@ -14,6 +18,23 @@ public class RouteService {
 		
 		return false;
 	} 
+	
+	public static String parseName(String string) throws IOException {
+    	if (string.isEmpty())
+    		throw new IOException("[Error] cannot be empty");
+    	else if (string.length() > maxLength)
+    		throw new IOException("[Error] cannot exceed 30 symobls");
+    	else if (RouteService.hasRoute(string))
+    		throw new IOException("[Error] route " + string + " already exists");
+		
+		return string;
+	}
+	
+	public static int parseType(int n) throws IOException {
+        if (n != 1 && n != 2)
+        	throw new RuntimeException("[Error] only 1 or 2");
+        return n;
+	}
 	
 	public static void addRoute(Route r) {
 		routes.add(r);

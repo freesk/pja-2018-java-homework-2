@@ -1,5 +1,6 @@
 package com.github.freesk.pja2018javahomework2;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -10,7 +11,6 @@ public class App {
 	
 	public static Scanner scanner;
 	public static ArrayList<Stop> stops;
-	public static RouteService routeService;
 	
     public static void main( String[] args ) {       
     	scanner = new Scanner(System.in);
@@ -40,10 +40,10 @@ public class App {
     			scanner.nextLine();
     			
     			if (n < 1 || n > items.size())
-    				throw new RuntimeException("[Error] invalid index");
+    				throw new IOException("[Error] invalid index");
     			
     			num = n;    			
-    		} catch (RuntimeException e) {
+    		} catch (IOException e) {
     			System.out.println(e.getMessage());
     		}
     		
@@ -187,21 +187,14 @@ public class App {
     }
     
     public static String getRouteNameInput() {
-    	int maxLength = 30;
     	String name = "";
 
         while (name.isEmpty()) {
         	System.out.println("Input the name of the route (for example R1)");
         	try {
             	String string = scanner.nextLine();
-            	if (string.isEmpty())
-            		throw new RuntimeException("[Error] cannot be empty");
-            	else if (string.length() > maxLength)
-            		throw new RuntimeException("[Error] cannot exceed 30 symobls");
-            	else if (RouteService.hasRoute(string))
-            		throw new RuntimeException("[Error] route " + string + " already exists");
-            	name = string;
-            } catch (RuntimeException e) {
+            	name = RouteService.parseName(string);
+            } catch (IOException e) {
             	System.out.println(e.getMessage());
             }
         }
@@ -209,10 +202,7 @@ public class App {
         return name;
     }
     
-    public static void showCreateNewRouteMenu() { 
-       
-    	String name = getRouteNameInput();
-
+    public static int getRouteTypeInput() {
         int type = 0;
         
         while (type == 0) {
@@ -220,13 +210,19 @@ public class App {
         	try {
             	int n = scanner.nextInt();
             	scanner.nextLine();
-            	if (n != 1 && n != 2)
-            		throw new RuntimeException();
-            	type = n;
-            } catch (RuntimeException e) {
-            	System.out.println("[Error] only 1 or 2");
+            	type = RouteService.parseType(n);
+            } catch (IOException e) {
+            	System.out.println(e.getMessage());
             }
         }
+        
+        return type;
+    }
+    
+    public static void showCreateNewRouteMenu() { 
+       
+    	String name = getRouteNameInput();
+        int type = getRouteTypeInput();
         
         System.out.print("Would you like to assing stations? "); 	
         
@@ -247,7 +243,7 @@ public class App {
     }
     
     public static ArrayList<Stop> selectStops(int type) {
-    	ArrayList<Stop> availableStations = getStopsByType(type);
+    	ArrayList<Stop> availableStations = StopService.getStopsByType(stops, type);
     	ArrayList<String> model = new ArrayList<String>();
     	
     	for (Stop s : availableStations) model.add(s.getName());
@@ -260,15 +256,7 @@ public class App {
     	
     	return selectedStations;
     }
-    
-    public static ArrayList<Stop> getStopsByType(int type) {
-    	ArrayList<Stop> list = new ArrayList<Stop>();
-    	
-    	for (Stop s : stops)
-    		if (s.getType() == 0 || s.getType() == type) list.add(s);
-    		
-    	return list;
-    }
+   
     
     public static LinkedHashSet<Integer> getArrayOfIntegers() {
     	
@@ -280,7 +268,7 @@ public class App {
             	String string = scanner.nextLine();
             	
             	if (string.isEmpty())
-            		throw new RuntimeException("[Error] must containt at least one integer");
+            		throw new IOException("[Error] must containt at least one integer");
             	
             	List<String> list = Arrays.asList(string.split(","));
             	
@@ -297,7 +285,7 @@ public class App {
             	
             	for (Integer k : arr) hs.add(k);
             	            	
-            } catch (RuntimeException e) {
+            } catch (IOException e) {
             	System.out.println(e.getMessage());
             }
         }
