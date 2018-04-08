@@ -99,6 +99,9 @@ public class App {
         	
     }
     
+//  The interlinks, which happen when two or more routes cross each other, 
+//  are being displayed as the following [R1, R2, ... R5]
+    
     public static void printStopInfo(ArrayList<Stop> stops) {
 		for (Stop s : stops) {
 			String message = "";

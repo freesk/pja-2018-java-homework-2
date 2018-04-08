@@ -54,6 +54,12 @@ public class RouteServiceTest {
 	}
 	
 	@Test(expected = IOException.class)
+	public void paraseNameWithNull() throws IOException {
+		String string = null;
+		RouteService.parseName(string);	
+	}
+	
+	@Test(expected = IOException.class)
 	public void paraseNameWithTooLongString() throws IOException {
 		String string = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 		RouteService.parseName(string);	

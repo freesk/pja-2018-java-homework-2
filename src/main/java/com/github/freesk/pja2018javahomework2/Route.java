@@ -25,8 +25,12 @@ public class Route {
 	}
 		
 	public void assingStops(ArrayList<Stop> stops) {
-		unassingStops();
-		this.stops = stops;
+		if (stops == null)
+			System.out.println("[Warning] cannot assign null");
+		else {
+			unassingStops();
+			this.stops = stops;	
+		}
 	}
 	
 	public String getName() {

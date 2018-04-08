@@ -1,7 +1,6 @@
 package com.github.freesk.pja2018javahomework2;
 
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class RouteService {
@@ -20,7 +19,9 @@ public class RouteService {
 	} 
 	
 	public static String parseName(String string) throws IOException {
-    	if (string.isEmpty())
+		if (string == null) 
+			throw new IOException("[Error] cannot be null");
+		else if (string.isEmpty())
     		throw new IOException("[Error] cannot be empty");
     	else if (string.length() > maxLength)
     		throw new IOException("[Error] cannot exceed 30 symobls");
@@ -37,7 +38,10 @@ public class RouteService {
 	}
 	
 	public static void addRoute(Route r) {
-		routes.add(r);
+		if (r == null)
+			System.out.println("[Warning] cannot add null");
+		else 
+			routes.add(r);
 	}
 	
 	public static ArrayList<Route> getRoutesByStop(Stop stop) {
